@@ -20,7 +20,6 @@ public class PostRequestDto {
 
     public Post toEntity() {
         return Post.builder()
-//                .username(username)
                 .image(image)
                 .contents(contents)
                 .build();

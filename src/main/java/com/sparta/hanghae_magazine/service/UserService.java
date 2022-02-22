@@ -47,4 +47,10 @@ public class UserService {
 
     }
 
+    @Transactional
+    public void delete(String username) {
+        userRepository.deleteByUsername(username);
+
+    }
+
 }

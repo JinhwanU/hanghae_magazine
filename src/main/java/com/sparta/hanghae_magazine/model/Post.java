@@ -8,6 +8,8 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Getter
@@ -25,19 +27,23 @@ public class Post extends Timestamped {
     @Column(nullable = false)
     private String contents;
 
-//    @Column(nullable = false)
-//    private String username;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "username")
+    private User user;
+
+    @OneToMany(mappedBy = "post", cascade = CascadeType.ALL)
+    private List<Like> likeList = new ArrayList<>();
+
+    public void addLike(Like like) {
+        this.likeList.add(like);
+        like.setPost(this);
+    }
 
     @Builder
     public Post(String image, String contents) {
         this.image = image;
         this.contents = contents;
     }
-
-    @ManyToOne
-    @JoinColumn(name = "username")
-    private User user;
-
 
     public Post(PostRequestDto requestDto) {
         this.image = requestDto.getImage();
@@ -48,9 +54,4 @@ public class Post extends Timestamped {
         this.image = requestDto.getImage();
         this.contents = requestDto.getContents();
     }
-
-//    public void addPost(User user){
-//        this.user.
-//
-//    }
 }
