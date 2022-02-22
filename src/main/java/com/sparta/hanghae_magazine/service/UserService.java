@@ -1,7 +1,7 @@
 package com.sparta.hanghae_magazine.service;
 
 import com.sparta.hanghae_magazine.dto.RegisterRequestDto;
-import com.sparta.hanghae_magazine.model.User;
+import com.sparta.hanghae_magazine.model.Users;
 import com.sparta.hanghae_magazine.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -26,12 +26,12 @@ public class UserService {
         String password = passwordEncoder.encode(requestDto.getPassword());
         String realName = requestDto.getRealName();
 
-        Optional<User> found = userRepository.findByUsername(username);
+        Optional<Users> found = userRepository.findByUsername(username);
         if (found.isPresent()) {
             throw new IllegalStateException("중복된 사용자 ID가 존재합니다.");
         }
 
-        User user = new User(username, password, realName);
+        Users user = new Users(username, password, realName);
         userRepository.save(user);
 
     }

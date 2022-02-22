@@ -13,7 +13,7 @@ import java.util.List;
 @Getter
 @Setter
 @NoArgsConstructor
-public class User {
+public class Users {
 
     @Id
     @Column(nullable = false, unique = true)
@@ -25,24 +25,24 @@ public class User {
     @Column(nullable = false)
     private String realName;
 
-    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
-    private List<Post> postList = new ArrayList<>();
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Posts> postList = new ArrayList<>();
 
-    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
-    private List<Like> likeList = new ArrayList<>();
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Likes> likeList = new ArrayList<>();
 
-    public void addPost(Post post) {
+    public void addPost(Posts post) {
         this.postList.add(post);
         post.setUser(this);
     }
 
-    public void addLike(Like like) {
+    public void addLike(Likes like) {
         this.likeList.add(like);
         like.setUser(this);
     }
 
     @Builder
-    public User(String username, String password, String realName) {
+    public Users(String username, String password, String realName) {
         this.username = username;
         this.password = password;
         this.realName = realName;

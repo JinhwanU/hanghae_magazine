@@ -1,6 +1,5 @@
 package com.sparta.hanghae_magazine.model;
 
-import com.sparta.hanghae_magazine.dto.LikeRequestDto;
 import lombok.*;
 
 import javax.persistence.*;
@@ -9,7 +8,7 @@ import javax.persistence.*;
 @Getter
 @Setter
 @NoArgsConstructor
-public class Like {
+public class Likes {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -17,14 +16,14 @@ public class Like {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "username")
-    private User user;
+    private Users user;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "postId")
-    private Post post;
+    private Posts post;
 
     @Builder
-    public Like(User user, Post post) {
+    public Likes(Users user, Posts post) {
         this.user = user;
         this.post = post;
     }

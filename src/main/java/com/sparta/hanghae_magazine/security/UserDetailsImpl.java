@@ -1,6 +1,6 @@
 package com.sparta.hanghae_magazine.security;
 
-import com.sparta.hanghae_magazine.model.User;
+import com.sparta.hanghae_magazine.model.Users;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -11,9 +11,9 @@ import java.util.Collections;
 @RequiredArgsConstructor
 public class UserDetailsImpl implements UserDetails {
 
-    private final User user;
+    private final Users user;
 
-    public User getUser() {
+    public Users getUser() {
         return user;
     }
 

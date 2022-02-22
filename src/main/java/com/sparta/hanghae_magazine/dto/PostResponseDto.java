@@ -1,6 +1,6 @@
 package com.sparta.hanghae_magazine.dto;
 
-import com.sparta.hanghae_magazine.model.Post;
+import com.sparta.hanghae_magazine.model.Posts;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -13,7 +13,7 @@ public class PostResponseDto {
     private String contents;
     private String username;
 
-    public PostResponseDto(Post post) {
+    public PostResponseDto(Posts post) {
         this.postId = post.getPostId();
         this.image = post.getImage();
         this.contents = post.getContents();

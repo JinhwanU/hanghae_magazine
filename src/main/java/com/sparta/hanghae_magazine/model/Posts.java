@@ -15,7 +15,7 @@ import java.util.List;
 @Getter
 @Setter
 @NoArgsConstructor
-public class Post extends Timestamped {
+public class Posts extends Timestamped {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -29,23 +29,23 @@ public class Post extends Timestamped {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "username")
-    private User user;
+    private Users user;
 
-    @OneToMany(mappedBy = "post", cascade = CascadeType.ALL)
-    private List<Like> likeList = new ArrayList<>();
+    @OneToMany(mappedBy = "post", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Likes> likeList = new ArrayList<>();
 
-    public void addLike(Like like) {
+    public void addLike(Likes like) {
         this.likeList.add(like);
         like.setPost(this);
     }
 
     @Builder
-    public Post(String image, String contents) {
+    public Posts(String image, String contents) {
         this.image = image;
         this.contents = contents;
     }
 
-    public Post(PostRequestDto requestDto) {
+    public Posts(PostRequestDto requestDto) {
         this.image = requestDto.getImage();
         this.contents = requestDto.getContents();
     }

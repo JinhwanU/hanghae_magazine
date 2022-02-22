@@ -1,6 +1,6 @@
 package com.sparta.hanghae_magazine.security;
 
-import com.sparta.hanghae_magazine.model.User;
+import com.sparta.hanghae_magazine.model.Users;
 import com.sparta.hanghae_magazine.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -16,7 +16,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 
 
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        User user = userRepository.findByUsername(username)
+        Users user = userRepository.findByUsername(username)
                 .orElseThrow(() -> new UsernameNotFoundException("Id 혹은 Password를 확인해주세요."));
 
         return new UserDetailsImpl(user);

@@ -1,11 +1,9 @@
 package com.sparta.hanghae_magazine.service;
 
-import com.sparta.hanghae_magazine.dto.LikeRequestDto;
-import com.sparta.hanghae_magazine.model.Like;
-import com.sparta.hanghae_magazine.model.Post;
+import com.sparta.hanghae_magazine.model.Posts;
 import com.sparta.hanghae_magazine.dto.PostRequestDto;
 import com.sparta.hanghae_magazine.dto.PostResponseDto;
-import com.sparta.hanghae_magazine.model.User;
+import com.sparta.hanghae_magazine.model.Users;
 import com.sparta.hanghae_magazine.repository.LikeRepository;
 import com.sparta.hanghae_magazine.repository.PostRepository;
 import com.sparta.hanghae_magazine.repository.UserRepository;
@@ -25,13 +23,13 @@ public class PostService {
     private final LikeRepository likeRepository;
 
     @Transactional
-    public List<Post> findAll() {
+    public List<Posts> findAll() {
         return postRepository.findAllByOrderByCreatedAtDesc();
     }
 
     @Transactional
     public PostResponseDto findOne(Long postId) {
-        Post post = postRepository.findByPostId(postId).orElseThrow(
+        Posts post = postRepository.findByPostId(postId).orElseThrow(
                 () -> new NullPointerException("해당 아이디가 없습니다.")
         );
         return new PostResponseDto(post);
@@ -40,10 +38,10 @@ public class PostService {
     @Transactional
     public Long save(PostRequestDto requestDto) {
 //        return postRepository.save(requestDto.toEntity()).getPostId();
-        Optional<User> result = Optional.ofNullable(userRepository.findByUsername(requestDto.getUsername()).orElseThrow(
+        Optional<Users> result = Optional.ofNullable(userRepository.findByUsername(requestDto.getUsername()).orElseThrow(
                 () -> new NullPointerException("해당 아이디가 없습니다.")
         ));
-        Post post = Post.builder()
+        Posts post = Posts.builder()
                 .contents(requestDto.getContents())
                 .image(requestDto.getImage())
                 .build();
@@ -60,7 +58,7 @@ public class PostService {
 
     @Transactional
     public Long modify(Long postId, PostRequestDto requestDto) {
-        Post post = postRepository.findByPostId(postId).orElseThrow(
+        Posts post = postRepository.findByPostId(postId).orElseThrow(
                 () -> new NullPointerException("해당 아이디가 없습니다.")
         );
         post.update(requestDto);

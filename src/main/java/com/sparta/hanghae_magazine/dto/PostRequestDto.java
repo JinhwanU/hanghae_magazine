@@ -1,6 +1,6 @@
 package com.sparta.hanghae_magazine.dto;
 
-import com.sparta.hanghae_magazine.model.Post;
+import com.sparta.hanghae_magazine.model.Posts;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -18,8 +18,8 @@ public class PostRequestDto {
         this.contents = contents;
     }
 
-    public Post toEntity() {
-        return Post.builder()
+    public Posts toEntity() {
+        return Posts.builder()
                 .image(image)
                 .contents(contents)
                 .build();
