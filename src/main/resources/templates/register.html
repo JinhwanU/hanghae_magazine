@@ -18,7 +18,7 @@
             var box = document.getElementById("admin-token");
 
 // If the checkbox is checked, display the output text
-            if (checkBox.checked == true){
+            if (checkBox.checked == true) {
                 box.style.display = "block";
             } else {
                 box.style.display = "none";
@@ -33,14 +33,16 @@
     <form action="/user/register" method="post">
         <div class="login-id-label">Username</div>
         <input type="text" name="username" placeholder="Username" class="login-input-box">
-
+        <div th:text="${valid_username}"></div>
         <div class="login-id-label">Password</div>
         <input type="password" name="password" class="login-input-box">
-
+        <div th:text="${valid_password}"></div>
         <div class="login-id-label">PasswordChk</div>
         <input type="password" name="passwordChk" class="login-input-box">
+        <div th:text="${valid_passwordChk}"></div>
         <div class="login-id-label">RealName</div>
         <input type="text" name="realName" placeholder="RealName" class="login-input-box">
+        <div th:text="${valid_realName}"></div>
         <button id="login-id-submit">회원 가입</button>
     </form>
 </div>
