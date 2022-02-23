@@ -1,9 +1,9 @@
 package com.sparta.hanghae_magazine.service;
 
 import com.sparta.hanghae_magazine.dto.LikeRequestDto;
-import com.sparta.hanghae_magazine.model.Likes;
-import com.sparta.hanghae_magazine.model.Posts;
-import com.sparta.hanghae_magazine.model.Users;
+import com.sparta.hanghae_magazine.domain.Likes;
+import com.sparta.hanghae_magazine.domain.Posts;
+import com.sparta.hanghae_magazine.domain.Users;
 import com.sparta.hanghae_magazine.repository.LikeRepository;
 import com.sparta.hanghae_magazine.repository.PostRepository;
 import com.sparta.hanghae_magazine.repository.UserRepository;

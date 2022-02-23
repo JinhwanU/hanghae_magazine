@@ -1,4 +1,4 @@
-package com.sparta.hanghae_magazine.model;
+package com.sparta.hanghae_magazine.domain;
 
 import com.sparta.hanghae_magazine.dto.PostRequestDto;
 import com.sparta.hanghae_magazine.utility.Timestamped;

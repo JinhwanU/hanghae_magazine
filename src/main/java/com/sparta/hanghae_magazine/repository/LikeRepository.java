@@ -1,6 +1,6 @@
 package com.sparta.hanghae_magazine.repository;
 
-import com.sparta.hanghae_magazine.model.Likes;
+import com.sparta.hanghae_magazine.domain.Likes;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.Optional;

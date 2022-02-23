@@ -1,10 +1,8 @@
 package com.sparta.hanghae_magazine.dto;
 
-import com.sparta.hanghae_magazine.model.Posts;
+import com.sparta.hanghae_magazine.domain.Posts;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-
-import javax.validation.constraints.NotEmpty;
 
 @Getter
 @NoArgsConstructor

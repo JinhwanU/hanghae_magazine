@@ -3,7 +3,6 @@ package com.sparta.hanghae_magazine.security;
 import lombok.var;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -15,7 +14,7 @@ import org.springframework.web.cors.CorsUtils;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
 @Configuration
-@EnableWebSecurity // 스프링 Security 지원을 가능하게 함
+@EnableWebSecurity(debug = true) // 스프링 Security 지원을 가능하게 함
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
 

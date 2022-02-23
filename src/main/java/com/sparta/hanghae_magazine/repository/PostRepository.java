@@ -1,6 +1,6 @@
 package com.sparta.hanghae_magazine.repository;
 
-import com.sparta.hanghae_magazine.model.Posts;
+import com.sparta.hanghae_magazine.domain.Posts;
 import org.springframework.data.jpa.repository.EntityGraph;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;

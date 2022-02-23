@@ -1,6 +1,6 @@
 package com.sparta.hanghae_magazine.repository;
 
-import com.sparta.hanghae_magazine.model.Users;
+import com.sparta.hanghae_magazine.domain.Users;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.Optional;

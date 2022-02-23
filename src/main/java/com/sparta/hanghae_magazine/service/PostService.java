@@ -1,20 +1,16 @@
 package com.sparta.hanghae_magazine.service;
 
-import com.sparta.hanghae_magazine.model.Posts;
+import com.sparta.hanghae_magazine.domain.Posts;
 import com.sparta.hanghae_magazine.dto.PostRequestDto;
 import com.sparta.hanghae_magazine.dto.PostResponseDto;
-import com.sparta.hanghae_magazine.model.Users;
-import com.sparta.hanghae_magazine.repository.LikeRepository;
+import com.sparta.hanghae_magazine.domain.Users;
 import com.sparta.hanghae_magazine.repository.PostRepository;
 import com.sparta.hanghae_magazine.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
-import net.bytebuddy.implementation.bytecode.Throw;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
-import java.security.Principal;
 import java.util.List;
-import java.util.Optional;
 
 @RequiredArgsConstructor
 @Service

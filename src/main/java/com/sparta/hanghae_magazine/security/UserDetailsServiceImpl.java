@@ -1,6 +1,6 @@
 package com.sparta.hanghae_magazine.security;
 
-import com.sparta.hanghae_magazine.model.Users;
+import com.sparta.hanghae_magazine.domain.Users;
 import com.sparta.hanghae_magazine.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.userdetails.UserDetails;

@@ -47,6 +47,9 @@ public class UserController {
         if (requestDto.passwordCheck(requestDto.getPassword(), requestDto.getUsername())) {
             model.addAttribute("valid_password", "비밀번호 내에 아이디를 포함할 수 없습니다.");
             return "register";
+        } else if (!requestDto.isPasswordEquals(requestDto.getPassword(), requestDto.getPasswordChk())) {
+            model.addAttribute("valid_passwordChk", "비밀번호와 비밀번호확인이 일치하지 않습니다.");
+            return "register";
         } else {
             userService.registerUser(requestDto);
             return "redirect:/user/login";

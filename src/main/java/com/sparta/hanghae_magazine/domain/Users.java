@@ -1,4 +1,4 @@
-package com.sparta.hanghae_magazine.model;
+package com.sparta.hanghae_magazine.domain;
 
 import lombok.Builder;
 import lombok.Getter;
