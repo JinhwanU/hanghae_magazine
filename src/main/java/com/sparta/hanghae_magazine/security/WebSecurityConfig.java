@@ -3,6 +3,7 @@ package com.sparta.hanghae_magazine.security;
 import lombok.var;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -43,6 +44,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         http.authorizeRequests()
                 // CORS 관련 Security 설정
                 .requestMatchers(CorsUtils::isPreFlightRequest).permitAll()
+                // home 페이지 login 없이 허용
                 .antMatchers("/").permitAll()
                 // image 폴더를 login 없이 허용
                 .antMatchers("/images/**").permitAll()
@@ -50,6 +52,9 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/css/**").permitAll()
                 // 회원 관리 처리 API 전부를 login 없이 허용
                 .antMatchers("/user/**").permitAll()
+                // Get 요청 login 없이 허용
+                .antMatchers(HttpMethod.GET, "/api/post").permitAll()
+                .antMatchers(HttpMethod.GET, "/api/post/*").permitAll()
 //                .antMatchers("/api/**").permitAll()
                 // 어떤 요청이든 '인증'
                 .anyRequest().authenticated()

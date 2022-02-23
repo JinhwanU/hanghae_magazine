@@ -1,5 +1,6 @@
 package com.sparta.hanghae_magazine.service;
 
+import com.sparta.hanghae_magazine.advice.RestException;
 import com.sparta.hanghae_magazine.domain.Posts;
 import com.sparta.hanghae_magazine.dto.PostRequestDto;
 import com.sparta.hanghae_magazine.dto.PostResponseDto;
@@ -7,6 +8,7 @@ import com.sparta.hanghae_magazine.domain.Users;
 import com.sparta.hanghae_magazine.repository.PostRepository;
 import com.sparta.hanghae_magazine.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
@@ -27,7 +29,7 @@ public class PostService {
     @Transactional
     public PostResponseDto findOne(Long postId) {
         Posts post = postRepository.findByPostId(postId).orElseThrow(
-                () -> new NullPointerException("해당 postId가 존재하지 않습니다.")
+                () -> new RestException(HttpStatus.NOT_FOUND,"해당 postId가 존재하지 않습니다.")
         );
         return new PostResponseDto(post);
     }
@@ -35,7 +37,7 @@ public class PostService {
     @Transactional
     public Long save(PostRequestDto requestDto, String username) {
         Users result = userRepository.findByUsername(username).orElseThrow(
-                () -> new NullPointerException("해당 아이디가 없습니다.")
+                () -> new RestException(HttpStatus.NOT_FOUND, "해당 username이 존재하지 않습니다.")
         );
         Posts post = Posts.builder()
                 .contents(requestDto.getContents())
@@ -55,13 +57,13 @@ public class PostService {
     @Transactional
     public Long modify(Long postId, PostRequestDto requestDto, String username) {
         Posts post = postRepository.findByPostId(postId).orElseThrow(
-                () -> new NullPointerException("해당 아이디가 없습니다.")
+                () -> new RestException(HttpStatus.NOT_FOUND,"해당 postId가 존재하지 않습니다.")
         );
         if (post.getUser().getUsername().equals(username)) {
             post.update(requestDto);
             return postId;
         } else {
-            throw new IllegalArgumentException("username이 일치하지 않습니다.");
+            throw new RestException(HttpStatus.BAD_REQUEST, "username이 일치하지 않습니다.");
         }
     }
 }

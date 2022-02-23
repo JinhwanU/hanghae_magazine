@@ -2,9 +2,12 @@ package com.sparta.hanghae_magazine.controller;
 
 import com.sparta.hanghae_magazine.dto.PostRequestDto;
 import com.sparta.hanghae_magazine.dto.PostResponseDto;
+import com.sparta.hanghae_magazine.model.Success;
 import com.sparta.hanghae_magazine.service.PostService;
 import com.sparta.hanghae_magazine.service.UserService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.security.Principal;
@@ -31,18 +34,21 @@ public class PostRestController {
 
 
     @PostMapping("/api/post")
-    public Long savePost(@RequestBody PostRequestDto requestDto, Principal principal) {
-        return postService.save(requestDto, principal.getName());
+    public ResponseEntity<Success> savePost(@RequestBody PostRequestDto requestDto, Principal principal) {
+        postService.save(requestDto, principal.getName());
+        return new ResponseEntity<>(new Success(true, "게시글 저장 성공"), HttpStatus.OK);
     }
 
     @DeleteMapping("/api/post/{postId}")
-    public Long deletePost(@PathVariable Long postId) {
-        return postService.delete(postId);
+    public ResponseEntity<Success> deletePost(@PathVariable Long postId) {
+        postService.delete(postId);
+        return new ResponseEntity<>(new Success(true, "게시글 삭제 성공"), HttpStatus.OK);
     }
 
     @PutMapping("/api/post/{postId}")
-    public Long modifyPost(@PathVariable Long postId, @RequestBody PostRequestDto requestDto, Principal principal) {
-        return postService.modify(postId, requestDto, principal.getName());
+    public ResponseEntity<Success> modifyPost(@PathVariable Long postId, @RequestBody PostRequestDto requestDto, Principal principal) {
+        postService.modify(postId, requestDto, principal.getName());
+        return new ResponseEntity<>(new Success(true, "게시글 수정 성공"), HttpStatus.OK);
     }
 
     //테스트용(유저 삭제)

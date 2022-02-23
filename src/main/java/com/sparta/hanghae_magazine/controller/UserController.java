@@ -1,8 +1,10 @@
 package com.sparta.hanghae_magazine.controller;
 
+import com.sparta.hanghae_magazine.advice.RestException;
 import com.sparta.hanghae_magazine.dto.RegisterRequestDto;
 import com.sparta.hanghae_magazine.service.UserService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.Errors;
@@ -22,7 +24,7 @@ public class UserController {
     @GetMapping("/user/login")
     public String showLoginForm(Principal principal) {
         if (principal != null) {
-            throw new IllegalStateException("이미 로그인이 되어있습니다.");
+            throw new RestException(HttpStatus.BAD_REQUEST, "이미 로그인 되어있습니다.");
         }
         return "login";
     }
@@ -30,7 +32,7 @@ public class UserController {
     @GetMapping("/user/register")
     public String showRegisterForm(Principal principal) {
         if (principal != null) {
-            throw new IllegalStateException("이미 로그인이 되어있습니다.");
+            throw new RestException(HttpStatus.BAD_REQUEST, "이미 로그인 되어있습니다.");
         }
         return "register";
     }
