@@ -25,7 +25,7 @@ public class PostService {
 
     @Transactional
     public List<Posts> findAll() {
-        return postRepository.findAllByOrderByCreatedAtDesc();
+        return postRepository.findAll();
     }
 
     @Transactional
