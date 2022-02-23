@@ -33,7 +33,6 @@ public class UserService {
 
         Users user = new Users(username, password, realName);
         userRepository.save(user);
-
     }
 
     @Transactional
@@ -50,7 +49,5 @@ public class UserService {
     @Transactional
     public void delete(String username) {
         userRepository.deleteByUsername(username);
-
     }
-
 }

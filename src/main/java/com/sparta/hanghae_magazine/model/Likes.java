@@ -9,7 +9,6 @@ import javax.persistence.*;
 @Setter
 @NoArgsConstructor
 public class Likes {
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long likeId;
@@ -27,14 +26,4 @@ public class Likes {
         this.user = user;
         this.post = post;
     }
-
-//    public void setPost(Post post) {
-//        this.post = post;
-//        post.getLikeList().add(this);
-//    }
-//
-//    public void setUser(User user) {
-//        this.user = user;
-//        user.getLikeList().add(this);
-//    }
 }

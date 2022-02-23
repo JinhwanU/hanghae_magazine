@@ -6,7 +6,6 @@ import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
 
 @EnableJpaAuditing
 @SpringBootApplication
-//@SpringBootApplication(exclude = SecurityAutoConfiguration.class)
 public class HanghaeMagazineApplication {
 
     public static void main(String[] args) {

@@ -16,61 +16,32 @@ import java.util.Optional;
 @RequiredArgsConstructor
 @Service
 public class LikeService {
-
-//    private final PostRepository postRepository;
-//    private final UserRepository userRepository;
-//    private final LikeRepository likeRepository;
-//
-//    @Transactional
-//    public Long saveLike(LikeRequestDto requestDto) {
-//
-//        Optional<Post> findPost = Optional.ofNullable(postRepository.findByPostId(requestDto.getPostId()).orElseThrow(
-//                () -> new NullPointerException("해당 postId가 존재하지 않습니다.")
-//        ));
-//        Optional<User> findUser = Optional.ofNullable(userRepository.findByUsername(requestDto.getUsername()).orElseThrow(
-//                () -> new NullPointerException("해당 username이 존재하지 않습니다")
-//        ));
-//        Optional<Like> findLike = likeRepository.findLikeByPost_PostIdAndUser_Username(requestDto.getPostId(), requestDto.getUsername());
-//        if (findLike.isPresent()) {
-//            throw new IllegalStateException("이미 좋아요 한 상태입니다");
-//        } else {
-//            Like like = Like.builder()
-//                    .user(findPost.get().getUser())
-//                    .post(findPost.get())
-//                    .build();
-//            likeRepository.save(like);
-//            findPost.get().addLike(like);
-//            findUser.get().addLike(like);
-//            return like.getLikeId();
-//        }
-//    }
-
     private final PostRepository postRepository;
     private final UserRepository userRepository;
     private final LikeRepository likeRepository;
 
     @Transactional
-    public Long saveLike(LikeRequestDto requestDto) {
+    public void saveLike(LikeRequestDto requestDto, String username) {
 
-        Optional<Posts> findPost = Optional.ofNullable(postRepository.findByPostId(requestDto.getPostId()).orElseThrow(
+        Posts findPost = postRepository.findByPostId(requestDto.getPostId()).orElseThrow(
                 () -> new NullPointerException("해당 postId가 존재하지 않습니다.")
-        ));
-        Optional<Users> findUser = Optional.ofNullable(userRepository.findByUsername(requestDto.getUsername()).orElseThrow(
+        );
+        Users findUser = userRepository.findByUsername(username).orElseThrow(
                 () -> new NullPointerException("해당 username이 존재하지 않습니다")
-        ));
-        Optional<Likes> findLike = likeRepository.findLikeByPost_PostIdAndUser_Username(requestDto.getPostId(), requestDto.getUsername());
-
+        );
+        Optional<Likes> findLike = likeRepository.findLikeByPost_PostIdAndUser_Username(requestDto.getPostId(), username);
         if (findLike.isPresent()) {
-            throw new IllegalStateException("이미 좋아요 한 상태입니다");
+            likeRepository.deleteById(findLike.get().getLikeId());
         } else {
             Likes like = Likes.builder()
-                    .user(findUser.get())
-                    .post(findPost.get())
+                    .user(findUser)
+                    .post(findPost)
                     .build();
             likeRepository.save(like);
-            findPost.get().addLike(like);
-            findUser.get().addLike(like);
-            return like.getLikeId();
+            findPost.addLike(like);
+            findUser.addLike(like);
         }
+
+
     }
 }

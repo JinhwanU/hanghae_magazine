@@ -4,19 +4,17 @@ import com.sparta.hanghae_magazine.model.Posts;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotEmpty;
+
 @Getter
 @NoArgsConstructor
 public class PostRequestDto {
 
-    private String username;
+    @NotBlank(message = "값이 존재하지 않습니다:image")
     private String image;
+    @NotEmpty(message = "값이 존재하지 않습니다:contents")
     private String contents;
-
-    public PostRequestDto(String username, String image, String contents) {
-        this.username = username;
-        this.image = image;
-        this.contents = contents;
-    }
 
     public Posts toEntity() {
         return Posts.builder()

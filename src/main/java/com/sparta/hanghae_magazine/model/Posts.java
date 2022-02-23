@@ -45,11 +45,6 @@ public class Posts extends Timestamped {
         this.contents = contents;
     }
 
-    public Posts(PostRequestDto requestDto) {
-        this.image = requestDto.getImage();
-        this.contents = requestDto.getContents();
-    }
-
     public void update(PostRequestDto requestDto) {
         this.image = requestDto.getImage();
         this.contents = requestDto.getContents();

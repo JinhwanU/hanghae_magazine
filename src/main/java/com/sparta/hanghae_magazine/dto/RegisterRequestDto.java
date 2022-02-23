@@ -8,6 +8,7 @@ import lombok.Setter;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Pattern;
+import javax.validation.constraints.Size;
 
 @Getter
 @Setter
@@ -19,7 +20,7 @@ public class RegisterRequestDto {
     private String username;
 
     @NotBlank(message = "비밀번호를 입력해주세요.")
-    @Min(4)
+    @Size(min = 4, max = 20, message = "비밀번호는 최소 4자 이상 20자 이하")
     private String password;
 
     @NotBlank(message = "이름을 입력해주세요.")
@@ -30,5 +31,9 @@ public class RegisterRequestDto {
         this.username = username;
         this.password = password;
         this.realName = realName;
+    }
+
+    public boolean passwordCheck(String password, String username) {
+        return password.contains(username);
     }
 }

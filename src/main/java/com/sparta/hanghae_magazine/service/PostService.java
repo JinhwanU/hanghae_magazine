@@ -8,9 +8,11 @@ import com.sparta.hanghae_magazine.repository.LikeRepository;
 import com.sparta.hanghae_magazine.repository.PostRepository;
 import com.sparta.hanghae_magazine.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
+import net.bytebuddy.implementation.bytecode.Throw;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.security.Principal;
 import java.util.List;
 import java.util.Optional;
 
@@ -20,7 +22,6 @@ public class PostService {
 
     private final PostRepository postRepository;
     private final UserRepository userRepository;
-    private final LikeRepository likeRepository;
 
     @Transactional
     public List<Posts> findAll() {
@@ -30,23 +31,22 @@ public class PostService {
     @Transactional
     public PostResponseDto findOne(Long postId) {
         Posts post = postRepository.findByPostId(postId).orElseThrow(
-                () -> new NullPointerException("해당 아이디가 없습니다.")
+                () -> new NullPointerException("해당 postId가 존재하지 않습니다.")
         );
         return new PostResponseDto(post);
     }
 
     @Transactional
-    public Long save(PostRequestDto requestDto) {
-//        return postRepository.save(requestDto.toEntity()).getPostId();
-        Optional<Users> result = Optional.ofNullable(userRepository.findByUsername(requestDto.getUsername()).orElseThrow(
+    public Long save(PostRequestDto requestDto, String username) {
+        Users result = userRepository.findByUsername(username).orElseThrow(
                 () -> new NullPointerException("해당 아이디가 없습니다.")
-        ));
+        );
         Posts post = Posts.builder()
                 .contents(requestDto.getContents())
                 .image(requestDto.getImage())
                 .build();
         postRepository.save(post);
-        result.get().addPost(post);
+        result.addPost(post);
         return requestDto.toEntity().getPostId();
     }
 
@@ -57,12 +57,15 @@ public class PostService {
     }
 
     @Transactional
-    public Long modify(Long postId, PostRequestDto requestDto) {
+    public Long modify(Long postId, PostRequestDto requestDto, String username) {
         Posts post = postRepository.findByPostId(postId).orElseThrow(
                 () -> new NullPointerException("해당 아이디가 없습니다.")
         );
-        post.update(requestDto);
-        return postId;
+        if (post.getUser().getUsername().equals(username)) {
+            post.update(requestDto);
+            return postId;
+        } else {
+            throw new IllegalArgumentException("username이 일치하지 않습니다.");
+        }
     }
-
 }

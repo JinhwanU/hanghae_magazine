@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 
 import javax.validation.Valid;
+import java.security.Principal;
 import java.util.Map;
 
 @RequiredArgsConstructor
@@ -19,32 +20,36 @@ public class UserController {
     private final UserService userService;
 
     @GetMapping("/user/login")
-    public String showLoginForm() {
+    public String showLoginForm(Principal principal) {
+        if (principal != null) {
+            throw new IllegalStateException("이미 로그인이 되어있습니다.");
+        }
         return "login";
     }
 
     @GetMapping("/user/register")
-    public String showRegisterForm() {
+    public String showRegisterForm(Principal principal) {
+        if (principal != null) {
+            throw new IllegalStateException("이미 로그인이 되어있습니다.");
+        }
         return "register";
     }
 
     @PostMapping("/user/register")
     public String registerUser(@Valid RegisterRequestDto requestDto, Errors errors, Model model) {
         if (errors.hasErrors()) {
-//            model.addAttribute("requestDto", requestDto);
             Map<String, String> validatorResult = userService.validateHandling(errors);
             for (String key : validatorResult.keySet()) {
                 model.addAttribute(key, validatorResult.get(key));
             }
             return "register";
         }
-        userService.registerUser(requestDto);
-        return "redirect:/user/login";
+        if (requestDto.passwordCheck(requestDto.getPassword(), requestDto.getUsername())) {
+            model.addAttribute("valid_password", "비밀번호 내에 아이디를 포함할 수 없습니다.");
+            return "register";
+        } else {
+            userService.registerUser(requestDto);
+            return "redirect:/user/login";
+        }
     }
-
-//    @PostMapping("/user/login")
-//    public String loginUser() {
-//        userService.loginUser();
-//        return "redirect:/";
-//    }
 }
