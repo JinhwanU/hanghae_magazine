@@ -10,6 +10,7 @@ import javax.validation.constraints.NotEmpty;
 @Getter
 @NoArgsConstructor
 public class PostRequestDto {
+    private String username;
 
     @NotBlank(message = "값이 존재하지 않습니다:image")
     private String image;

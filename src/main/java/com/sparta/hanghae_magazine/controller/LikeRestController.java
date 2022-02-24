@@ -19,11 +19,11 @@ public class LikeRestController {
     private final LikeService likeService;
 
     @PostMapping("/api/post/like")
-    public ResponseEntity<Success> postLike(@RequestBody LikeRequestDto requestDto, Principal principal) {
-        if (principal == null) {
-            return new ResponseEntity<>(new Success(true, "로그인이 필요합니다"), HttpStatus.BAD_REQUEST);
-        }
-        likeService.saveLike(requestDto, principal.getName());
+    public ResponseEntity<Success> postLike(@RequestBody LikeRequestDto requestDto) {
+//        if (principal == null) {
+//            return new ResponseEntity<>(new Success(true, "로그인이 필요합니다"), HttpStatus.BAD_REQUEST);
+//        }
+        likeService.saveLike(requestDto);
         return new ResponseEntity<>(new Success(true, "좋아요 성공"), HttpStatus.OK);
     }
 }

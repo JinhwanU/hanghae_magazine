@@ -12,7 +12,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 
 import javax.validation.Valid;
-import java.security.Principal;
 import java.util.Map;
 
 @RequiredArgsConstructor
@@ -22,21 +21,21 @@ public class UserController {
     private final UserService userService;
 
     @GetMapping("/user/login")
-    public String showLoginForm(Principal principal) {
-        if (principal != null) {
-            throw new RestException(HttpStatus.BAD_REQUEST, "이미 로그인 되어있습니다.");
-        }
+    public String showLoginForm() {
+//        if (principal != null) {
+//            throw new RestException(HttpStatus.BAD_REQUEST, "이미 로그인 되어있습니다.");
+//        }
         return "login";
     }
 
     @GetMapping("/user/register")
-    public String showRegisterForm(Principal principal) {
-        if (principal != null) {
-            throw new RestException(HttpStatus.BAD_REQUEST, "이미 로그인 되어있습니다.");
-        }
+    public String showRegisterForm() {
+//        if (principal != null) {
+//            throw new RestException(HttpStatus.BAD_REQUEST, "이미 로그인 되어있습니다.");
+//        }
         return "register";
     }
-
+    //TODO : 에러메세지 JSON으로 반환하도록 변경 (라이브러리 찾아보면 나올수도 )
     @PostMapping("/user/register")
     public String registerUser(@Valid RegisterRequestDto requestDto, Errors errors, Model model) {
         if (errors.hasErrors()) {

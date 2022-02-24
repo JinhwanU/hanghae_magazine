@@ -26,4 +26,9 @@ public class Likes {
         this.user = user;
         this.post = post;
     }
+
+    public Likes(Posts post) {
+        this.user = post.getUser();
+        this.post = post;
+    }
 }

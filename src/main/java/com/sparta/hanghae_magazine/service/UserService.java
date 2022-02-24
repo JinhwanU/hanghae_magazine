@@ -48,9 +48,4 @@ public class UserService {
         return validatorResult;
 
     }
-
-    @Transactional
-    public void delete(String username) {
-        userRepository.deleteByUsername(username);
-    }
 }

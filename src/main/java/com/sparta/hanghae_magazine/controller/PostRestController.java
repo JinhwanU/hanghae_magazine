@@ -10,7 +10,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.security.Principal;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -25,6 +24,7 @@ public class PostRestController {
         return postService.findAll().stream()
                 .map(PostResponseDto::new)
                 .collect(Collectors.toList());
+
     }
 
     @GetMapping("/api/post/{postId}")
@@ -34,8 +34,8 @@ public class PostRestController {
 
 
     @PostMapping("/api/post")
-    public ResponseEntity<Success> savePost(@RequestBody PostRequestDto requestDto, Principal principal) {
-        postService.save(requestDto, principal.getName());
+    public ResponseEntity<Success> savePost(@RequestBody PostRequestDto requestDto) {
+        postService.save(requestDto);
         return new ResponseEntity<>(new Success(true, "게시글 저장 성공"), HttpStatus.OK);
     }
 
@@ -46,14 +46,8 @@ public class PostRestController {
     }
 
     @PutMapping("/api/post/{postId}")
-    public ResponseEntity<Success> modifyPost(@PathVariable Long postId, @RequestBody PostRequestDto requestDto, Principal principal) {
-        postService.modify(postId, requestDto, principal.getName());
+    public ResponseEntity<Success> modifyPost(@PathVariable Long postId, @RequestBody PostRequestDto requestDto) {
+        postService.modify(postId, requestDto);
         return new ResponseEntity<>(new Success(true, "게시글 수정 성공"), HttpStatus.OK);
-    }
-
-    //테스트용(유저 삭제)
-    @DeleteMapping("/api/post/user/{username}")
-    public void deleteUser(@PathVariable String username) {
-        userService.delete(username);
     }
 }
