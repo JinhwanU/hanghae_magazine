@@ -1,4 +1,4 @@
-package com.sparta.hanghae_magazine.utility;
+package com.sparta.hanghae_magazine.model;
 
 import lombok.Getter;
 import org.springframework.data.annotation.CreatedDate;

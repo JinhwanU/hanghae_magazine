@@ -1,10 +1,9 @@
 package com.sparta.hanghae_magazine.controller;
 
-import com.sparta.hanghae_magazine.security.UserDetailsImpl;
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 
 @Controller
 public class HomeController {
@@ -13,4 +12,25 @@ public class HomeController {
         model.addAttribute("username");
         return "index";
     }
+
+//    @GetMapping("/user/login")
+//    public String showLoginForm() {
+//        if (principal != null) {
+//            throw new RestException(HttpStatus.BAD_REQUEST, "이미 로그인 되어있습니다.");
+//        }
+//        return "login";
+//    }
+
+//    @GetMapping("/user/register")
+//    public String showRegisterForm() {
+//        if (principal != null) {
+//            throw new RestException(HttpStatus.BAD_REQUEST, "이미 로그인 되어있습니다.");
+//        }
+//        return "register";
+//    }
+
+//    @PostMapping("/user/logout")
+//    public String logout(){
+//        return "login";
+//    }
 }

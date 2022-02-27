@@ -43,7 +43,5 @@ public class LikeService {
             findPost.addLike(like);
             findUser.addLike(like);
         }
-
-
     }
 }

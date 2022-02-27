@@ -24,13 +24,4 @@ public class PostResponseDto {
         
 //        post.getLikeList().forEach(likes -> likes.getUser().getUsername());
     }
-
-    //생성자에 현재 username 등록(principal)
-    //함수 정의
-    //
-
-
-    // hash map  유저네임+포스트Id 키 생성
-    //
-
 }

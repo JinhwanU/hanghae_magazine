@@ -13,7 +13,10 @@ public class WebConfig implements WebMvcConfigurer {
 //        allowedMethods를 이용해서 허용할 HTTP method를 지정
 //        maxAge메소드를 이용해서 원하는 시간만큼 pre-flight 리퀘스트를 캐싱 해둘 수 있습니다.
         registry.addMapping("/**")
-                .allowedOrigins("*")
+                .exposedHeaders("ACCESS_TOKEN")
+                .exposedHeaders("REFRESH_TOKEN")
+                .allowCredentials(true)
+                .allowedOrigins("http://localhost:8080")
                 .allowedMethods("*");
     }
 

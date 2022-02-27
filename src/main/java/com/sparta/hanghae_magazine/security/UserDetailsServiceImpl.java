@@ -1,8 +1,10 @@
 package com.sparta.hanghae_magazine.security;
 
+import com.sparta.hanghae_magazine.advice.RestException;
 import com.sparta.hanghae_magazine.domain.Users;
 import com.sparta.hanghae_magazine.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -14,11 +16,10 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 
     private final UserRepository userRepository;
 
-
-    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        Users user = userRepository.findByUsername(username)
-                .orElseThrow(() -> new UsernameNotFoundException("Id 혹은 Password를 확인해주세요."));
-
-        return new UserDetailsImpl(user);
+    //TODO:에러 메세지 출력 확인
+    public UserDetails loadUserByUsername(String username) {
+        return userRepository.findByUsername(username)
+                .orElseThrow(() -> new UsernameNotFoundException("사용자를 찾을 수 없습니다."));
+//                .orElseThrow(() -> new RestException(HttpStatus.BAD_REQUEST, "해당 사용자를 찾을 수 없습니다."));
     }
 }
