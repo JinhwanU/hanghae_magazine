@@ -5,6 +5,7 @@ import com.sparta.hanghae_magazine.domain.Posts;
 import com.sparta.hanghae_magazine.dto.PostRequestDto;
 import com.sparta.hanghae_magazine.dto.PostResponseDto;
 import com.sparta.hanghae_magazine.domain.Users;
+import com.sparta.hanghae_magazine.repository.LikeRepository;
 import com.sparta.hanghae_magazine.repository.PostRepository;
 import com.sparta.hanghae_magazine.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
@@ -12,6 +13,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.util.ArrayList;
 import java.util.List;
 
 @RequiredArgsConstructor
@@ -20,18 +22,39 @@ public class PostService {
 
     private final PostRepository postRepository;
     private final UserRepository userRepository;
+    private final LikeRepository likeRepository;
 
     @Transactional
-    public List<Posts> findAll() {
-        return postRepository.findAll();
+    public List<PostResponseDto> findAll(String username) {
+        List<Posts> posts = postRepository.findAll();
+        List<PostResponseDto> responseDto = new ArrayList<>();
+        if (username != null) {
+            for (Posts post : posts) {
+                boolean isLiked = likeRepository.existsByPost_PostIdAndUser_Username(post.getPostId(), username);
+                PostResponseDto postResponseDto = new PostResponseDto(post, isLiked);
+                responseDto.add(postResponseDto);
+            }
+        } else {
+            for (Posts post : posts) {
+                PostResponseDto postResponseDto = new PostResponseDto(post);
+                responseDto.add(postResponseDto);
+            }
+        }
+        return responseDto;
     }
 
     @Transactional
-    public PostResponseDto findOne(Long postId) {
+    public PostResponseDto findOne(Long postId, String username) {
         Posts post = postRepository.findByPostId(postId).orElseThrow(
                 () -> new RestException(HttpStatus.NOT_FOUND, "해당 postId가 존재하지 않습니다.")
         );
-        return new PostResponseDto(post);
+        if (username != null) {
+            boolean isLiked = likeRepository.existsByPost_PostIdAndUser_Username(postId, username);
+            return new PostResponseDto(post, isLiked);
+        } else {
+            return new PostResponseDto(post);
+        }
+
     }
 
     @Transactional

@@ -13,15 +13,23 @@ public class PostResponseDto {
     private String username;
     private Long likeCount;
     private boolean isLiked;
-    //TODO: isLiked 적용하기 ( LikeRepository에서 username,postId로 검색해서 결과정보를 boolean으로 반환 )
-    public PostResponseDto(Posts post) {
-        this.postId = post.getPostId();
-        this.image = post.getImage();
-        this.contents = post.getContents();
-        this.username = post.getUser().getUsername();
-        this.likeCount = (long) post.getLikeList().size();
+
+    public PostResponseDto(Posts posts) {
+        this.postId = posts.getPostId();
+        this.image = posts.getImage();
+        this.contents = posts.getContents();
+        this.username = posts.getUser().getUsername();
+        this.likeCount = (long) posts.getLikeList().size();
         this.isLiked = false;
-        
-//        post.getLikeList().forEach(likes -> likes.getUser().getUsername());
     }
+
+    public PostResponseDto(Posts posts, boolean isLiked) {
+        this.postId = posts.getPostId();
+        this.image = posts.getImage();
+        this.contents = posts.getContents();
+        this.username = posts.getUser().getUsername();
+        this.likeCount = (long) posts.getLikeList().size();
+        this.isLiked = isLiked;
+    }
+
 }

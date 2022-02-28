@@ -5,7 +5,7 @@ import com.sparta.hanghae_magazine.domain.RefreshToken;
 import com.sparta.hanghae_magazine.dto.LoginRequestDto;
 import com.sparta.hanghae_magazine.dto.RegisterRequestDto;
 import com.sparta.hanghae_magazine.domain.Users;
-import com.sparta.hanghae_magazine.dto.ResponseTokenDto;
+import com.sparta.hanghae_magazine.dto.TokenResponseDto;
 import com.sparta.hanghae_magazine.repository.TokenRepository;
 import com.sparta.hanghae_magazine.repository.UserRepository;
 import com.sparta.hanghae_magazine.security.JwtTokenProvider;
@@ -42,7 +42,7 @@ public class UserService {
     }
 
     @Transactional
-    public ResponseTokenDto login(LoginRequestDto requestDto) {
+    public TokenResponseDto login(LoginRequestDto requestDto) {
         Users user = userRepository.findByUsername(requestDto.getUsername())
                 .orElseThrow(() -> new RestException(HttpStatus.BAD_REQUEST, "가입되지 않은 username 입니다."));
         if (!passwordEncoder.matches(requestDto.getPassword(), user.getPassword())) {
@@ -52,7 +52,7 @@ public class UserService {
         String refreshToken = jwtTokenProvider.createRefreshToken(user.getUsername(), user.getRoles());
         tokenRepository.save(new RefreshToken(refreshToken));
 
-        return ResponseTokenDto.builder()
+        return TokenResponseDto.builder()
                 .ACCESS_TOKEN(accessToken)
                 .REFRESH_TOKEN(refreshToken)
                 .build();

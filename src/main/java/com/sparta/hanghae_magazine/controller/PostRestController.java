@@ -12,7 +12,6 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
 @RestController
@@ -20,15 +19,13 @@ public class PostRestController {
     private final PostService postService;
 
     @GetMapping("/api/post")
-    public List<PostResponseDto> findPostAll() {
-        return postService.findAll().stream()
-                .map(PostResponseDto::new)
-                .collect(Collectors.toList());
+    public List<PostResponseDto> findPostAll(@AuthenticationPrincipal Users users) {
+        return postService.findAll(users.getUsername());
     }
 
     @GetMapping("/api/post/{postId}")
-    public PostResponseDto findPost(@PathVariable Long postId) {
-        return postService.findOne(postId);
+    public PostResponseDto findPost(@PathVariable Long postId, @AuthenticationPrincipal Users users) {
+        return postService.findOne(postId, users.getUsername());
     }
 
     @PostMapping("/api/post")

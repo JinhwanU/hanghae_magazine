@@ -3,7 +3,7 @@ package com.sparta.hanghae_magazine.controller;
 import com.sparta.hanghae_magazine.advice.RestException;
 import com.sparta.hanghae_magazine.dto.LoginRequestDto;
 import com.sparta.hanghae_magazine.dto.RegisterRequestDto;
-import com.sparta.hanghae_magazine.dto.ResponseTokenDto;
+import com.sparta.hanghae_magazine.dto.TokenResponseDto;
 import com.sparta.hanghae_magazine.model.Success;
 import com.sparta.hanghae_magazine.service.UserService;
 import lombok.RequiredArgsConstructor;
@@ -48,7 +48,7 @@ public class UserRestController {
 //        if (user != null){
 //            return new ResponseEntity<>(new Success(false, "이미 로그인 중입니다."), HttpStatus.BAD_REQUEST);
 //        }
-        ResponseTokenDto token = userService.login(requestDto);
+        TokenResponseDto token = userService.login(requestDto);
 
         response.setHeader("ACCESS_TOKEN", token.getACCESS_TOKEN());
         response.setHeader("REFRESH_TOKEN", token.getREFRESH_TOKEN());
