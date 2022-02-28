@@ -20,12 +20,20 @@ public class PostRestController {
 
     @GetMapping("/api/post")
     public List<PostResponseDto> findPostAll(@AuthenticationPrincipal Users users) {
-        return postService.findAll(users.getUsername());
+        if (users == null) {
+            return postService.findAll();
+        } else {
+            return postService.findAll(users.getUsername());
+        }
     }
 
     @GetMapping("/api/post/{postId}")
     public PostResponseDto findPost(@PathVariable Long postId, @AuthenticationPrincipal Users users) {
-        return postService.findOne(postId, users.getUsername());
+        if (users == null) {
+            return postService.findOne(postId);
+        } else {
+            return postService.findOne(postId, users.getUsername());
+        }
     }
 
     @PostMapping("/api/post")

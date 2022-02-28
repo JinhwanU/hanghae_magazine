@@ -25,22 +25,34 @@ public class PostService {
     private final LikeRepository likeRepository;
 
     @Transactional
+    public List<PostResponseDto> findAll() {
+        List<Posts> posts = postRepository.findAll();
+        List<PostResponseDto> responseDto = new ArrayList<>();
+        for (Posts post : posts) {
+            PostResponseDto postResponseDto = new PostResponseDto(post);
+            responseDto.add(postResponseDto);
+        }
+        return responseDto;
+    }
+
+    @Transactional
     public List<PostResponseDto> findAll(String username) {
         List<Posts> posts = postRepository.findAll();
         List<PostResponseDto> responseDto = new ArrayList<>();
-        if (username != null) {
-            for (Posts post : posts) {
-                boolean isLiked = likeRepository.existsByPost_PostIdAndUser_Username(post.getPostId(), username);
-                PostResponseDto postResponseDto = new PostResponseDto(post, isLiked);
-                responseDto.add(postResponseDto);
-            }
-        } else {
-            for (Posts post : posts) {
-                PostResponseDto postResponseDto = new PostResponseDto(post);
-                responseDto.add(postResponseDto);
-            }
+        for (Posts post : posts) {
+            boolean isLiked = likeRepository.existsByPost_PostIdAndUser_Username(post.getPostId(), username);
+            PostResponseDto postResponseDto = new PostResponseDto(post, isLiked);
+            responseDto.add(postResponseDto);
         }
         return responseDto;
+    }
+
+    @Transactional
+    public PostResponseDto findOne(Long postId) {
+        Posts post = postRepository.findByPostId(postId).orElseThrow(
+                () -> new RestException(HttpStatus.NOT_FOUND, "해당 postId가 존재하지 않습니다.")
+        );
+        return new PostResponseDto(post);
     }
 
     @Transactional
@@ -48,13 +60,8 @@ public class PostService {
         Posts post = postRepository.findByPostId(postId).orElseThrow(
                 () -> new RestException(HttpStatus.NOT_FOUND, "해당 postId가 존재하지 않습니다.")
         );
-        if (username != null) {
-            boolean isLiked = likeRepository.existsByPost_PostIdAndUser_Username(postId, username);
-            return new PostResponseDto(post, isLiked);
-        } else {
-            return new PostResponseDto(post);
-        }
-
+        boolean isLiked = likeRepository.existsByPost_PostIdAndUser_Username(postId, username);
+        return new PostResponseDto(post, isLiked);
     }
 
     @Transactional
