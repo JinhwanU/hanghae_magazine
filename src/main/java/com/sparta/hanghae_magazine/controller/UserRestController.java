@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.validation.Valid;
 
 @RequiredArgsConstructor
 @RestController
@@ -25,7 +26,7 @@ public class UserRestController {
     private final UserService userService;
 
     @PostMapping("/user/register")
-    public ResponseEntity<Success> registerUser(@RequestBody RegisterRequestDto requestDto, Errors errors) {
+    public ResponseEntity<Success> registerUser(@Valid @RequestBody RegisterRequestDto requestDto, Errors errors) {
         if (errors.hasErrors()) {
             for (FieldError error : errors.getFieldErrors()) {
                 throw new RestException(HttpStatus.BAD_REQUEST, error.getDefaultMessage());

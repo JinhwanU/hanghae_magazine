@@ -23,6 +23,7 @@ public class RegisterRequestDto {
     @Size(min = 4, max = 20, message = "비밀번호는 최소 4자 이상 20자 이하")
     private String password;
 
+    @NotBlank(message = "비밀번호 확인을 입력해주세요.")
     private String passwordCheck;
 
     @NotBlank(message = "이름을 입력해주세요.")
