@@ -1,7 +1,6 @@
 package com.sparta.hanghae_magazine.security;
 
 import com.sparta.hanghae_magazine.domain.RefreshToken;
-import com.sparta.hanghae_magazine.dto.ResponseTokenDto;
 import com.sparta.hanghae_magazine.repository.TokenRepository;
 import com.sparta.hanghae_magazine.repository.UserRepository;
 import io.jsonwebtoken.Claims;

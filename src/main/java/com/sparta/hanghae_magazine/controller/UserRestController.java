@@ -1,7 +1,6 @@
 package com.sparta.hanghae_magazine.controller;
 
 import com.sparta.hanghae_magazine.advice.RestException;
-import com.sparta.hanghae_magazine.domain.Users;
 import com.sparta.hanghae_magazine.dto.LoginRequestDto;
 import com.sparta.hanghae_magazine.dto.RegisterRequestDto;
 import com.sparta.hanghae_magazine.dto.ResponseTokenDto;
@@ -10,7 +9,6 @@ import com.sparta.hanghae_magazine.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.validation.Errors;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -36,10 +34,8 @@ public class UserRestController {
 
         if (requestDto.passwordCheck(requestDto.getPassword(), requestDto.getUsername())) {
             throw new RestException(HttpStatus.BAD_REQUEST, "비밀번호 내에 아이디를 포함할 수 없습니다.");
-//            return "register";
         } else if (!requestDto.isPasswordEquals(requestDto.getPassword(), requestDto.getPasswordCheck())) {
             throw new RestException(HttpStatus.BAD_REQUEST, "비밀번호와 비밀번호확인이 일치하지 않습니다.");
-//            return "register";
         } else {
             userService.registerUser(requestDto);
             return new ResponseEntity<>(new Success(true, "회원가입 성공"), HttpStatus.OK);
@@ -47,7 +43,7 @@ public class UserRestController {
     }
 
     @PostMapping("/user/login")
-    public ResponseEntity<Success> login(@RequestBody LoginRequestDto requestDto, HttpServletResponse response, @AuthenticationPrincipal Users user) {
+    public ResponseEntity<Success> login(@RequestBody LoginRequestDto requestDto, HttpServletResponse response) {
 //        if (user != null){
 //            return new ResponseEntity<>(new Success(false, "이미 로그인 중입니다."), HttpStatus.BAD_REQUEST);
 //        }

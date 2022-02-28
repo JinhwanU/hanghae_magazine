@@ -29,14 +29,14 @@ public class PostService {
     @Transactional
     public PostResponseDto findOne(Long postId) {
         Posts post = postRepository.findByPostId(postId).orElseThrow(
-                () -> new RestException(HttpStatus.NOT_FOUND,"해당 postId가 존재하지 않습니다.")
+                () -> new RestException(HttpStatus.NOT_FOUND, "해당 postId가 존재하지 않습니다.")
         );
         return new PostResponseDto(post);
     }
 
     @Transactional
-    public Long save(PostRequestDto requestDto) {
-        Users result = userRepository.findByUsername(requestDto.getUsername()).orElseThrow(
+    public Long save(PostRequestDto requestDto, String username) {
+        Users result = userRepository.findByUsername(username).orElseThrow(
                 () -> new RestException(HttpStatus.NOT_FOUND, "해당 username이 존재하지 않습니다.")
         );
         Posts post = Posts.builder()
@@ -55,11 +55,11 @@ public class PostService {
     }
 
     @Transactional
-    public Long modify(Long postId, PostRequestDto requestDto) {
+    public Long modify(Long postId, PostRequestDto requestDto, String username) {
         Posts post = postRepository.findByPostId(postId).orElseThrow(
-                () -> new RestException(HttpStatus.NOT_FOUND,"해당 postId가 존재하지 않습니다.")
+                () -> new RestException(HttpStatus.NOT_FOUND, "해당 postId가 존재하지 않습니다.")
         );
-        if (post.getUser().getUsername().equals(requestDto.getUsername())) {
+        if (post.getUser().getUsername().equals(username)) {
             post.update(requestDto);
             return postId;
         } else {

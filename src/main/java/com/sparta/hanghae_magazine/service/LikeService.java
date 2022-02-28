@@ -23,15 +23,15 @@ public class LikeService {
     private final LikeRepository likeRepository;
 
     @Transactional
-    public void saveLike(LikeRequestDto requestDto) {
+    public void saveLike(LikeRequestDto requestDto, String username) {
 
         Posts findPost = postRepository.findByPostId(requestDto.getPostId()).orElseThrow(
                 () -> new RestException(HttpStatus.NOT_FOUND, "해당 postId가 존재하지 않습니다.")
         );
-        Users findUser = userRepository.findByUsername(requestDto.getUsername()).orElseThrow(
+        Users findUser = userRepository.findByUsername(username).orElseThrow(
                 () -> new RestException(HttpStatus.NOT_FOUND, "해당 username이 존재하지 않습니다.")
         );
-        Optional<Likes> findLike = likeRepository.findLikeByPost_PostIdAndUser_Username(requestDto.getPostId(), requestDto.getUsername());
+        Optional<Likes> findLike = likeRepository.findLikeByPost_PostIdAndUser_Username(requestDto.getPostId(), username);
         if (findLike.isPresent()) {
             likeRepository.deleteById(findLike.get().getLikeId());
         } else {

@@ -5,7 +5,6 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import javax.validation.constraints.Min;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
@@ -30,7 +29,6 @@ public class RegisterRequestDto {
     private String realName;
 
     private List<String> roles;
-
 
     @Builder
     public RegisterRequestDto(String username, String password, String realName) {
