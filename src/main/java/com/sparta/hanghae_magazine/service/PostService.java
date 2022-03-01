@@ -65,7 +65,7 @@ public class PostService {
     }
 
     @Transactional
-    public Long save(PostRequestDto requestDto, String username) {
+    public void save(PostRequestDto requestDto, String username) {
         Users result = userRepository.findByUsername(username).orElseThrow(
                 () -> new RestException(HttpStatus.NOT_FOUND, "해당 username이 존재하지 않습니다.")
         );
@@ -75,23 +75,20 @@ public class PostService {
                 .build();
         postRepository.save(post);
         result.addPost(post);
-        return requestDto.toEntity().getPostId();
     }
 
     @Transactional
-    public Long delete(Long postId) {
+    public void delete(Long postId) {
         postRepository.deleteByPostId(postId);
-        return postId;
     }
 
     @Transactional
-    public Long modify(Long postId, PostRequestDto requestDto, String username) {
+    public void modify(Long postId, PostRequestDto requestDto, String username) {
         Posts post = postRepository.findByPostId(postId).orElseThrow(
                 () -> new RestException(HttpStatus.NOT_FOUND, "해당 postId가 존재하지 않습니다.")
         );
         if (post.getUser().getUsername().equals(username)) {
             post.update(requestDto);
-            return postId;
         } else {
             throw new RestException(HttpStatus.BAD_REQUEST, "username이 일치하지 않습니다.");
         }

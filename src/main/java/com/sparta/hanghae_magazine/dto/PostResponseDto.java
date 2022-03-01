@@ -4,6 +4,8 @@ import com.sparta.hanghae_magazine.domain.Posts;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDateTime;
+
 @Getter
 @NoArgsConstructor
 public class PostResponseDto {
@@ -12,6 +14,8 @@ public class PostResponseDto {
     private String contents;
     private String username;
     private Long likeCount;
+    private LocalDateTime createdAt;
+    private LocalDateTime modifiedAt;
     private boolean isLiked;
 
     public PostResponseDto(Posts posts) {
@@ -20,6 +24,8 @@ public class PostResponseDto {
         this.contents = posts.getContents();
         this.username = posts.getUser().getUsername();
         this.likeCount = (long) posts.getLikeList().size();
+        this.createdAt = posts.getCreatedAt();
+        this.modifiedAt = posts.getModifiedAt();
         this.isLiked = false;
     }
 
@@ -29,6 +35,8 @@ public class PostResponseDto {
         this.contents = posts.getContents();
         this.username = posts.getUser().getUsername();
         this.likeCount = (long) posts.getLikeList().size();
+        this.createdAt = posts.getCreatedAt();
+        this.modifiedAt = posts.getModifiedAt();
         this.isLiked = isLiked;
     }
 

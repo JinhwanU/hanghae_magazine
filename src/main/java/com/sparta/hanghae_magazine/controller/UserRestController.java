@@ -44,10 +44,16 @@ public class UserRestController {
     }
 
     @PostMapping("/user/login")
-    public ResponseEntity<Success> login(@RequestBody LoginRequestDto requestDto, HttpServletResponse response) {
+    public ResponseEntity<Success> login(@RequestBody LoginRequestDto requestDto, HttpServletResponse response, Errors errors) {
 //        if (user != null){
 //            return new ResponseEntity<>(new Success(false, "이미 로그인 중입니다."), HttpStatus.BAD_REQUEST);
 //        }
+        if (errors.hasErrors()) {
+            for (FieldError error : errors.getFieldErrors()) {
+                throw new RestException(HttpStatus.BAD_REQUEST, error.getDefaultMessage());
+            }
+        }
+
         TokenResponseDto token = userService.login(requestDto);
 
         response.setHeader("ACCESS_TOKEN", token.getACCESS_TOKEN());
