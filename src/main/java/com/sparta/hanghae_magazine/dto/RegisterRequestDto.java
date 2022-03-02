@@ -1,9 +1,6 @@
 package com.sparta.hanghae_magazine.dto;
 
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Pattern;
@@ -38,6 +35,12 @@ public class RegisterRequestDto {
         this.realName = realName;
     }
 
+    public RegisterRequestDto(String username, String password, String passwordCheck, String realName) {
+        this.username = username;
+        this.password = password;
+        this.passwordCheck = passwordCheck;
+        this.realName = realName;
+    }
 
     public boolean passwordCheck(String password, String username) {
         return password.contains(username);
