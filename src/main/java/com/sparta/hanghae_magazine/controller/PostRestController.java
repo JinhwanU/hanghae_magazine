@@ -14,6 +14,7 @@ import org.springframework.validation.Errors;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 import java.util.List;
 
@@ -23,11 +24,17 @@ public class PostRestController {
     private final PostService postService;
 
     @GetMapping("/api/post")
-    public List<PostResponseDto> findPostAll(@AuthenticationPrincipal Users users) {
-        if (users == null) {
-            return postService.findAll();
+    public List<PostResponseDto> findPostAll(HttpServletRequest request, @AuthenticationPrincipal Users users) {
+        int pagingCnt;
+        if (request.getHeader("PAGING_CNT") == null) {
+            pagingCnt = 0;
         } else {
-            return postService.findAll(users.getUsername());
+            pagingCnt = Integer.parseInt(request.getHeader("PAGING_CNT"));
+        }
+        if (users == null) {
+            return postService.findAll(pagingCnt);
+        } else {
+            return postService.findAll(users.getUsername(), pagingCnt);
         }
     }
 

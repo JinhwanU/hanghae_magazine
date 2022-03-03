@@ -9,6 +9,10 @@ import com.sparta.hanghae_magazine.repository.LikeRepository;
 import com.sparta.hanghae_magazine.repository.PostRepository;
 import com.sparta.hanghae_magazine.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
@@ -25,19 +29,27 @@ public class PostService {
     private final LikeRepository likeRepository;
 
     @Transactional
-    public List<PostResponseDto> findAll() {
-        List<Posts> posts = postRepository.findAll();
+    public List<PostResponseDto> findAll(int pagingCnt) {
+//        Pageable sortedByCreatedAtDescNoAsc =
+//                PageRequest.of(0, 5, Sort.by("createdAt").descending());
+//        Page<Posts> posts = postRepository.findAll(sortedByCreatedAtDescNoAsc);
+        Pageable pageRequest = PageRequest.of(pagingCnt, 5, Sort.by("createdAt").descending());
+        Page<Posts> posts = postRepository.findAll(pageRequest);
+//        List<Posts> posts = postRepository.findAll();
         List<PostResponseDto> responseDto = new ArrayList<>();
         for (Posts post : posts) {
             PostResponseDto postResponseDto = new PostResponseDto(post);
             responseDto.add(postResponseDto);
         }
         return responseDto;
+//        return posts;
     }
 
     @Transactional
-    public List<PostResponseDto> findAll(String username) {
-        List<Posts> posts = postRepository.findAll();
+    public List<PostResponseDto> findAll(String username, int pagingCnt) {
+        Pageable pageRequest = PageRequest.of(pagingCnt, 5, Sort.by("createdAt").descending());
+        Page<Posts> posts = postRepository.findAll(pageRequest);
+//        List<Posts> posts = postRepository.findAll();
         List<PostResponseDto> responseDto = new ArrayList<>();
         for (Posts post : posts) {
             boolean isLiked = likeRepository.existsByPost_PostIdAndUser_Username(post.getPostId(), username);
